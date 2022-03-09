@@ -16,20 +16,18 @@ namespace SaberTailor.Settings.Utilities
         internal static bool profilesLoaded = false;
         internal static bool profilesPresent = false;
         internal static List<object> profileNames;
+        internal static string filesPath = $"{UnityGame.UserDataPath}/SaberTailor";
 
         internal static void LoadProfiles()
         {
             profileNames = new List<object>();
 
-            string[] fileNames = Directory.GetFiles(UnityGame.UserDataPath, @"SaberTailor.*.json");
+            string[] fileNames = Directory.GetFiles(filesPath, @"SaberTailor.*.json");
             foreach (string fileName in fileNames)
             {
-                Regex r = new Regex(@"^SaberTailor\.([a-zA-Z0-9_-]+)\.json$");
-                Match m = r.Match(Path.GetFileName(fileName));
-                if (m.Success)
-                {
-                    profileNames.Add(m.Groups[1].Value);
-                }
+                string profileName = Path.GetFileNameWithoutExtension(fileName);
+                profileName = profileName.Substring(profileName.IndexOf('.') + 1);
+                profileNames.Add(profileName);
             }
 
             if (profileNames.Count > 0)
@@ -45,10 +43,30 @@ namespace SaberTailor.Settings.Utilities
             profilesLoaded = true;
         }
 
+        internal static void MigrateProfiles()
+        {
+            if (File.Exists($"{UnityGame.UserDataPath}/SaberTailor.json"))
+            {
+
+            }
+            string[] fileNames = Directory.GetFiles(UnityGame.UserDataPath, @"SaberTailor.*.json");
+            foreach (string fileName in fileNames)
+            {
+                string profileName = Path.GetFileName(fileName);
+                if (!File.Exists($"{UnityGame.UserDataPath}/SaberTailor/{profileName}"))
+                {
+                    
+                    File.Copy(fileName, $"{UnityGame.UserDataPath}/SaberTailor/{profileName}");
+                }
+            }
+            if (File.Exists($"{UnityGame.UserDataPath}/SaberTailor.json") && !File.Exists($"{UnityGame.UserDataPath}/SaberTailor/SaberTailor.json")) 
+                File.Copy($"{UnityGame.UserDataPath}/SaberTailor.json", $"{UnityGame.UserDataPath}/SaberTailor/SaberTailor.json");
+        }
+
         internal static bool DeleteProfile(string profileName, out string statusMsg)
         {
             string fileName = @"SaberTailor." + profileName + @".json";
-            string filePath = Path.Combine(UnityGame.UserDataPath, fileName);
+            string filePath = Path.Combine(filesPath, fileName);
             if (File.Exists(filePath))
             {
                 try
@@ -91,6 +109,22 @@ namespace SaberTailor.Settings.Utilities
             }
         }
 
+        internal static bool LoadDefaultProfile()
+        {
+            string fileName = @"SaberTailor.json";
+            bool loadSuccessful = FileHandler.LoadConfig(out PluginConfig config, fileName);
+            if (loadSuccessful)
+            {
+                PluginConfig.Instance = config;
+                Configuration.Load();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         internal static bool SaveProfile(string profileName, out string statusMsg)
         {
             string fileName = @"SaberTailor." + profileName + @".json";
@@ -122,6 +156,13 @@ namespace SaberTailor.Settings.Utilities
                 return;
             }
             Logger.log.Debug(String.Join("; ", profileNames));
+        }
+
+        internal static List<object> ReloadProfileList()
+        {
+            Logger.log.Debug("Reloading profiles");
+            LoadProfiles();
+            return profileNames;
         }
     }
 }

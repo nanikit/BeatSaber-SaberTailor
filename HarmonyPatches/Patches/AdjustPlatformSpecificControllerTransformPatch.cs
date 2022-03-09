@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using BS_Utils.Utilities;
+using HarmonyLib;
 using SaberTailor.Settings;
 using UnityEngine;
 using UnityEngine.XR;
@@ -64,8 +65,17 @@ namespace SaberTailor.HarmonyPatches
                 }
                 else
                 {
+                    if (Configuration.Base.Electrostats) return;
                     transform.Translate(Configuration.Grip.PosLeft);
                     transform.Rotate(Configuration.Grip.RotLeft);
+                    transform.Translate(Configuration.Grip.OffsetLeft, Space.World);
+                }
+                // https://github.com/Shadnix-was-taken/BeatSaber-SaberTailor/issues/29 - Code taken from commit here, don't know how accurate or correct it is
+                if (Configuration.Base.Electrostats)
+                {
+                    transform.Rotate(0, 0, Configuration.Grip.RotLeft.z);
+                    transform.Translate(Configuration.Grip.PosLeft);
+                    transform.Rotate(Configuration.Grip.RotLeft.x, Configuration.Grip.RotLeft.y, 0);
                     transform.Translate(Configuration.Grip.OffsetLeft, Space.World);
                 }
                 return;
@@ -79,10 +89,20 @@ namespace SaberTailor.HarmonyPatches
                 }
                 else
                 {
+                    if (Configuration.Base.Electrostats) return;
                     transform.Translate(Configuration.Grip.PosRight);
                     transform.Rotate(Configuration.Grip.RotRight);
                     transform.Translate(Configuration.Grip.OffsetRight, Space.World);
                 }
+                // https://github.com/Shadnix-was-taken/BeatSaber-SaberTailor/issues/29 - Code taken from commit here, don't know how accurate or correct it is
+                if (Configuration.Base.Electrostats)
+                {
+                    transform.Rotate(0, 0, Configuration.Grip.RotRight.z);
+                    transform.Translate(Configuration.Grip.PosRight);
+                    transform.Rotate(Configuration.Grip.RotRight.x, Configuration.Grip.RotRight.y, 0);
+                    transform.Translate(Configuration.Grip.OffsetRight, Space.World);
+                }
+                
                 return;
             }
 
@@ -98,10 +118,20 @@ namespace SaberTailor.HarmonyPatches
                     }
                     else
                     {
+                        if (Configuration.Base.Electrostats) return;
                         transform.Translate(Configuration.Grip.PosLeft);
                         transform.Rotate(Configuration.Grip.RotLeft);
                         transform.Translate(Configuration.Grip.OffsetLeft, Space.World);
                     }
+                    // https://github.com/Shadnix-was-taken/BeatSaber-SaberTailor/issues/29 - Code taken from commit here, don't know how accurate or correct it is
+                    if (Configuration.Base.Electrostats)
+                    {
+                        transform.Rotate(0, 0, Configuration.Grip.RotLeft.z);
+                        transform.Translate(Configuration.Grip.PosLeft);
+                        transform.Rotate(Configuration.Grip.RotLeft.x, Configuration.Grip.RotLeft.y, 0);
+                        transform.Translate(Configuration.Grip.OffsetLeft, Space.World);
+                    }
+                    
                     return;
                 }
                 else if (transform.gameObject.name == "ControllerRight")
@@ -113,10 +143,20 @@ namespace SaberTailor.HarmonyPatches
                     }
                     else
                     {
+                        if (Configuration.Base.Electrostats) return;
                         transform.Translate(Configuration.Grip.PosRight);
                         transform.Rotate(Configuration.Grip.RotRight);
                         transform.Translate(Configuration.Grip.OffsetRight, Space.World);
                     }
+                    // https://github.com/Shadnix-was-taken/BeatSaber-SaberTailor/issues/29 - Code taken from commit here, don't know how accurate or correct it is
+                    if (Configuration.Base.Electrostats)
+                    {
+                        transform.Rotate(0, 0, Configuration.Grip.RotRight.z);
+                        transform.Translate(Configuration.Grip.PosRight);
+                        transform.Rotate(Configuration.Grip.RotRight.x, Configuration.Grip.RotRight.y, 0);
+                        transform.Translate(Configuration.Grip.OffsetRight, Space.World);
+                    }
+                    
                     return;
                 }
             }

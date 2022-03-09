@@ -1,4 +1,5 @@
-﻿using SaberTailor.Settings.Classes;
+﻿using Newtonsoft.Json;
+using SaberTailor.Settings.Classes;
 
 namespace SaberTailor.Settings.Utilities
 {
@@ -38,6 +39,10 @@ namespace SaberTailor.Settings.Utilities
         public int SaberRotIncrement = 5;
         public string SaberPosIncUnit = "cm";
         public string SaberPosDisplayUnit = "cm";
+
+        public bool Electrostats { get; set; } = false;
+        public bool Randomize { get; set; } = false;
+        public bool electroball { get; set; } = false;
 
         /// <summary>
         /// Call this to save to disk

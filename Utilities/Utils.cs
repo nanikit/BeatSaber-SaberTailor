@@ -1,5 +1,6 @@
 ﻿using IPA.Loader;
 using IPA.Old;
+using SaberTailor.Settings;
 
 namespace SaberTailor.Utilities
 {

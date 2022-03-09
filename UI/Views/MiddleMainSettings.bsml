@@ -1,0 +1,177 @@
+﻿<bg preferred-width="130" xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
+  <tab-selector tab-tag='new-tab'/>
+  <tab tags='new-tab' tab-name='Main Settings' size-delta-y='-20'>
+    <vertical child-expand-height='true' child-control-height='true'>
+      <bool-setting text='Enable saber grip modification' value='saber-grip-tweak-enabled'
+                  apply-on-change='true' get-event="refresh-sabertailor-values"
+                  hover-hint='Enable/Disable any grip modifications.' />
+      <!--Saber Grip Menu-->
+      <bool-setting text='Enable Base Game Adjustment Mode' value='basegameadjustmentmode-enabled'
+                    apply-on-change='true' get-event='refresh-sabertailor-values'
+                    hover-hint='Switch between SaberTailor or base game adjustment mode. This changes how your grip settings are applied to the controller position.' />
+      <dropdown-list-setting text='Saber Position Inc. Unit' value='saber-pos-unit-value'
+                                 options='saber-pos-unit-options' apply-on-change='true'/>
+
+      <increment-setting text='Saber Position Increment' value='saber-pos-increment-value' get-event='refresh-sabertailor-position-values'
+                         apply-on-change='true' formatter='position-inc-formatter'
+                         integer-only='true' min='1' max='20' increment='1'/>
+
+      <increment-setting text='Saber Rotation Increment' value='saber-rot-increment-value'
+                         apply-on-change='true' formatter='rotation-formatter'
+                         integer-only='true' min='1' max='20' increment='1'/>
+
+      <dropdown-list-setting text='Saber Pos. Display Unit' value='saber-pos-display-unit-value' get-event='refresh-sabertailor-position-values'
+                             options='saber-pos-display-unit-options' apply-on-change='true'/>
+
+      <bool-setting text='Menu hilt adjustments' value='menuhiltadjust-enabled'
+                apply-on-change='true' get-event='refresh-sabertailor-values'
+                hover-hint='Enable to reposition the menu hilts the same way as the sabers.' />
+    </vertical>
+  </tab>
+  <tab tags='new-tab' tab-name='Scale' size-delta-y='-20'>
+    <vertical>
+      <horizontal>
+        <clickable-text text='⭯ Revert' align='Right' click-event='reset-saber-config-scale' />
+      </horizontal>
+      <bool-setting text='Enable saber scale modification' value='saber-scale-tweak-enabled'
+                    get-event="refresh-sabertailor-values" apply-on-change='true'
+                    hover-hint='Enable/Disable any scale modifications.' />
+      <increment-setting text='Length (Default: 100%)' value='saber-scale-length'
+                         get-event="refresh-sabertailor-values" apply-on-change='true'
+                         integer-only='true' min='5' max='500' increment='5'
+                         formatter='multiplier-formatter' hover-hint='Scales the saber length.' />
+      <increment-setting text='Width (Default: 100%)' value='saber-scale-girth'
+                         get-event="refresh-sabertailor-values" apply-on-change='true'
+                         integer-only='true' min='5' max='500' increment='5'
+                         formatter='multiplier-formatter' hover-hint='Scales the saber width.' />
+      <bool-setting text='Scale hitbox' value='saber-scale-hitbox-enabled'
+                    get-event="refresh-sabertailor-values" apply-on-change='true'
+                    hover-hint='Enable/Disable saber hit-box scaling.' />
+      <text text='Enabling hitbox scaling will disable score submission.'
+            font-size='5' color='#fb484e' size-delta-y='8' />
+
+    </vertical>
+  </tab>
+
+  <tab tags='new-tab' tab-name='Trail' size-delta-y='-20'>
+    <vertical>
+      <horizontal>
+        <clickable-text text='⭯ Revert' align='Right' click-event='reset-saber-config-trail' />
+      </horizontal>
+      <bool-setting text='Enable saber trail modification' value='saber-trail-tweak-enabled'
+                    get-event="refresh-sabertailor-values" apply-on-change='true'
+                    hover-hint='Enable/Disable any trail modifications.' />
+
+      <bool-setting text='Enable saber trails' value='saber-trail-enabled'
+                    get-event="refresh-sabertailor-values" apply-on-change='true'
+                    hover-hint='Currently only works with sabers using default trail.' />
+
+      <increment-setting text='Trail duration' value='saber-trail-duration'
+                         get-event="refresh-sabertailor-values" formatter='trail-time-formatter'
+                         integer-only='true' min='100' max='5000' increment='100' apply-on-change='true'
+                         hover-hint='Adjusts trail duration in seconds. Only works with sabers using default trail. Default: 0.4s' />
+
+      <increment-setting text='Trail granularity' value='saber-trail-granularity'
+                         get-event="refresh-sabertailor-values" apply-on-change='true'
+                         integer-only='true' min='10' max='200' increment='10'
+                         hover-hint='Adjusts trail granularity in steps. Only works with sabers using default trail. Default: 60' />
+
+      <increment-setting text='Trail white section duration' value='saber-trail-whiteduration'
+                         get-event="refresh-sabertailor-values" formatter='trail-white-time-formatter'
+                         integer-only='true' min='0' max='2000' increment='50' apply-on-change='true'
+                         hover-hint='Adjusts trail white section duration in seconds. Only works with sabers using default trail. Default: 0.1s' />
+    </vertical>
+  </tab>
+
+  <tab tags='new-tab' tab-name='Profiles' size-delta-y='-20'>
+    <vertical>
+      <horizontal>
+        <dropdown-list-setting text='Existing profiles:' value='profile-list-value' get-event='refresh-profile-list'
+                               options='profile-list-options' apply-on-change='true' id='ddl_profiles' />
+      </horizontal>
+      <horizontal pref-width='90' pad-right='30'>
+        <button text='Load profile' click-event='profile-load' />
+        <button text='Delete profile' click-event='profile-delete' />
+      </horizontal>
+      <horizontal>
+        <string-setting text='New profile name:' value='profile-save-name' apply-on-change='true' />
+      </horizontal>
+      <horizontal>
+        <button text='Save new profile' align='Midline' click-event='profile-save' />
+      </horizontal>
+      <horizontal pref-width='90' pref-height='30'>
+        <text id='profile-txt' text=' ' word-wrapping='true' />
+      </horizontal>
+    </vertical>
+  </tab>
+
+  <tab tags='new-tab' tab-name='Import/Export' size-delta-y='-20'>
+    <vertical>
+      <horizontal pref-width='90'>
+        <text text='Export/Import grip config to/from game.' align='Center' />
+      </horizontal>
+      <horizontal>
+        <button text='Export to game' align='Right' click-event='saber-grip-export' />
+        <button text='Import from game' align='Left' click-event='saber-grip-import' />
+      </horizontal>
+      <horizontal pref-width='90' pref-height='30'>
+        <text id='transfer-txt' text=' ' word-wrapping='true'></text>
+      </horizontal>
+    </vertical>
+  </tab>
+  <tab tags='new-tab' tab-name='Misc.' size-delta-y='-20'>
+    <vertical>
+      <horizontal>
+        <bool-setting text='[EXPERIMENTAL] Electrostats Toggle' value='electrostats'
+                      get-event='refresh-sabertailor-position-values' apply-on-change='true'
+                    hover-hint='Enable different way of applying rotation and position' />
+        <button text='?' hover-hint='Applies the rotation and position in the order: Rot Z -> Rot X and Y -> Positions'/>
+      </horizontal>
+      <horizontal>
+        <bool-setting text='[EXPERIMENTAL] Ball Thing' value='electroball' interactable='false'
+                      get-event='refresh-sabertailor-position-values' apply-on-change='true'
+                    hover-hint='Enable ball' />
+        <button text='?' hover-hint='hahaBALL'/>
+      </horizontal>
+      <horizontal>
+        <text text='CLICKING THE BUTTON BELOW WILL RANDOMIZE YOUR CONTROLLER SETTINGS, PROCEED WITH CAUTION' font-size='3' font-color='#f54272'/>
+      </horizontal>
+      <horizontal>
+        <bool-setting text='Enable Randomize Option' value='randomize'
+                    get-event="refresh-sabertailor-values" apply-on-change='true'
+                    hover-hint='Dont.' />
+      </horizontal>
+      <button id='randomizebool' text='Randomize Controller Settings' interactable='~randomize' click-event='randomizer'/>
+    </vertical>
+  </tab>
+  <tab tags='new-tab' tab-name='About' size-delta-y='-20'>
+
+    <horizontal horizontal-fit='PreferredSize' vertical-fit='PreferredSize' pref-width='130'>
+      <vertical>
+        <image src='https://avatars.githubusercontent.com/u/1431570' preserve-aspect='true' pref-width='20' pref-height='20'/>
+        <image src='https://avatars.githubusercontent.com/u/42559603' preserve-aspect='true' pref-width='20' pref-height='20'/>
+        <image src='https://avatars.githubusercontent.com/u/30192333' preserve-aspect='true' pref-width='20' pref-height='20'/>
+      </vertical>
+      <vertical>
+        <horizontal>
+          <clickable-text text='SteffanDonal' click-event='SteffanGithub' font-size='4'/>
+        </horizontal>
+        <horizontal>
+          <text text='Original Maintainer of SaberTailor' font-size='7' />
+        </horizontal>
+        <horizontal>
+          <clickable-text text='Shadnix-was-taken' font-size='4'/>
+        </horizontal>
+        <horizontal>
+          <text text='Current Maintainer of SaberTailor' font-size='7' />
+        </horizontal>
+        <horizontal>
+          <clickable-text text='rondDev' font-size='4'/>
+        </horizontal>
+        <horizontal>
+          <text text='Reworked the UI' font-size='7' />
+        </horizontal>
+      </vertical>
+    </horizontal>
+  </tab>
+</bg>
