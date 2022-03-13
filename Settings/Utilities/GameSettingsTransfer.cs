@@ -99,6 +99,7 @@ namespace SaberTailor.Settings.Utilities
             catch (Exception e)
             {
                 Logger.log.Error(e);
+                return false;
             }
 
             return true;

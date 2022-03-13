@@ -6,8 +6,6 @@ using SaberTailor.Settings;
 using SaberTailor.Settings.Utilities;
 using SaberTailor.Tweaks;
 using SaberTailor.UI;
-using System;
-using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,7 +22,6 @@ namespace SaberTailor
     [Plugin(RuntimeOptions.DynamicInit)]
     public class Plugin
     {
-        internal static Plugin Instance { get; private set; }
         public static string PluginName => BuildInfo.Name;
         public static Hive.Versioning.Version PluginVersion { get; private set; } = new Hive.Versioning.Version("0.0.0"); // Default
 
@@ -35,7 +32,6 @@ namespace SaberTailor
         [Init]
         public void Init(IPALogger logger, PluginMetadata metadata)
         {
-            Instance = this;
             Logger.log = logger;
             Configuration.Init();
             Configuration.InitBase();
@@ -44,7 +40,6 @@ namespace SaberTailor
             {
                 PluginVersion = metadata.HVersion;
             }
-            //zenjector.Install<MenuInstaller>(Location.Menu);
         }
         
 
@@ -78,7 +73,7 @@ namespace SaberTailor
             
             Settings.Utilities.ProfileManager.LoadProfiles();
 
-            SceneManager.activeSceneChanged += OnActiveSceneChanged;
+            AddEvents();
             if (IsBSMLAvailable)
             {
                 AddMenu();
@@ -94,12 +89,23 @@ namespace SaberTailor
         {
             SaberTailorPatches.RemoveHarmonyPatches();
             Configuration.Save();
-            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+            RemoveEvents();
 
             if (IsBSMLAvailable)
             {
                 RemoveMenu();
             }
+        }
+
+        private void AddEvents()
+        {
+            RemoveEvents();
+            SceneManager.activeSceneChanged += OnActiveSceneChanged;
+        }
+
+        private void RemoveEvents()
+        {
+            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
         }
 
         private void AddMenu()

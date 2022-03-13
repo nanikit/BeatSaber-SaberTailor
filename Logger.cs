@@ -2,7 +2,7 @@
 
 namespace SaberTailor
 {
-    public class Logger
+    internal class Logger
     {
         public static IPALogger log { get; set; }
     }

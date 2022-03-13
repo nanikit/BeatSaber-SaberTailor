@@ -1,5 +1,4 @@
-﻿using BS_Utils.Utilities;
-using HarmonyLib;
+﻿using HarmonyLib;
 using SaberTailor.Settings;
 using UnityEngine;
 using UnityEngine.XR;
@@ -59,6 +58,9 @@ namespace SaberTailor.HarmonyPatches
             if (transform.gameObject.name == "LeftHand" || transform.gameObject.name.Contains("Saber A"))
             {
                 // https://github.com/Shadnix-was-taken/BeatSaber-SaberTailor/issues/29 - Code taken from commit here, don't know how accurate or correct it is
+                
+                // The configuration bit for this needs a rework
+                /**
                 if (Configuration.Base.Electrostats)
                 {
                     transform.Rotate(0, 0, Configuration.Grip.RotLeft.z);
@@ -66,6 +68,7 @@ namespace SaberTailor.HarmonyPatches
                     transform.Rotate(Configuration.Grip.RotLeft.x, Configuration.Grip.RotLeft.y, 0);
                     transform.Translate(Configuration.Grip.OffsetLeft, Space.World);
                 }
+                **/
                 if (Configuration.Grip.UseBaseGameAdjustmentMode)
                 {
                     position = Configuration.Grip.PosLeft;
@@ -84,6 +87,8 @@ namespace SaberTailor.HarmonyPatches
             else if (transform.gameObject.name == "RightHand" || transform.gameObject.name.Contains("Saber B"))
             {
                 // https://github.com/Shadnix-was-taken/BeatSaber-SaberTailor/issues/29 - Code taken from commit here, don't know how accurate or correct it is
+                // The configuration bit for this needs a rework
+                /**
                 if (Configuration.Base.Electrostats)
                 {
                     transform.Rotate(0, 0, Configuration.Grip.RotRight.z);
@@ -91,6 +96,7 @@ namespace SaberTailor.HarmonyPatches
                     transform.Rotate(Configuration.Grip.RotRight.x, Configuration.Grip.RotRight.y, 0);
                     transform.Translate(Configuration.Grip.OffsetRight, Space.World);
                 }
+                **/
                 if (Configuration.Grip.UseBaseGameAdjustmentMode)
                 {
                     position = Configuration.Grip.PosRight;
@@ -114,6 +120,8 @@ namespace SaberTailor.HarmonyPatches
                 if (transform.gameObject.name == "ControllerLeft")
                 {
                     // https://github.com/Shadnix-was-taken/BeatSaber-SaberTailor/issues/29 - Code taken from commit here, don't know how accurate or correct it is
+                    // The configuration bit for this needs a rework
+                    /**
                     if (Configuration.Base.Electrostats)
                     {
                         transform.Rotate(0, 0, Configuration.Grip.RotLeft.z);
@@ -121,6 +129,7 @@ namespace SaberTailor.HarmonyPatches
                         transform.Rotate(Configuration.Grip.RotLeft.x, Configuration.Grip.RotLeft.y, 0);
                         transform.Translate(Configuration.Grip.OffsetLeft, Space.World);
                     }
+                    **/
                     if (Configuration.Grip.UseBaseGameAdjustmentMode)
                     {
                         position = Configuration.Grip.PosLeft;
@@ -140,6 +149,8 @@ namespace SaberTailor.HarmonyPatches
                 else if (transform.gameObject.name == "ControllerRight")
                 {
                     // https://github.com/Shadnix-was-taken/BeatSaber-SaberTailor/issues/29 - Code taken from commit here, don't know how accurate or correct it is
+                    // The configuration bit for this needs a rework
+                    /**
                     if (Configuration.Base.Electrostats)
                     {
                         transform.Rotate(0, 0, Configuration.Grip.RotRight.z);
@@ -147,6 +158,7 @@ namespace SaberTailor.HarmonyPatches
                         transform.Rotate(Configuration.Grip.RotRight.x, Configuration.Grip.RotRight.y, 0);
                         transform.Translate(Configuration.Grip.OffsetRight, Space.World);
                     }
+                    **/
                     if (Configuration.Grip.UseBaseGameAdjustmentMode)
                     {
                         position = Configuration.Grip.PosRight;
