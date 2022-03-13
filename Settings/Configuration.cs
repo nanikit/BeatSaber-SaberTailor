@@ -1,14 +1,17 @@
 ﻿using IPA.Config;
+using IPA.Utilities;
 using SaberTailor.HarmonyPatches;
 using SaberTailor.Settings.Classes;
 using SaberTailor.Settings.Utilities;
 using System;
+using System.IO;
 using UnityEngine;
 
 namespace SaberTailor.Settings
 {
-    internal enum ConfigSection { All, Grip, GripLeft, GripRight, Scale, Trail, Menu };
-    internal enum GripConfigSide { Left, Right };
+    //Made both of these public to be able to enum in SaberUtils
+    public enum ConfigSection { All, Grip, GripLeft, GripRight, Scale, Trail, Menu, Base };
+    public enum GripConfigSide { Left, Right };
 
     public class Configuration
     {
@@ -25,10 +28,21 @@ namespace SaberTailor.Settings
         public static GripRawConfig GripCfg { get; internal set; } = new GripRawConfig();
         public static ScaleRawConfig ScaleCfg { get; internal set; } = new ScaleRawConfig();
 
+        public static BaseConfig Base { get; internal set; } = new BaseConfig();
+
+
         internal static void Init()
         {
+
             FileHandler.LoadConfig(out PluginConfig config);
             PluginConfig.Instance = config;
+        }
+
+        //Split in case wanting to remove it in the future.
+        internal static void InitBase()
+        {
+            FileHandler.LoadBaseConfig(out BaseConfig config);
+            //BaseConfig.Instance = config;
         }
 
         /// <summary>
@@ -38,6 +52,8 @@ namespace SaberTailor.Settings
         {
             SaveConfig(ref PluginConfig.Instance);
             FileHandler.SaveConfig(PluginConfig.Instance);
+            //SaveBaseConfig(ref BaseConfig.Instance);
+            //FileHandler.SaveBaseConfig(BaseConfig.Instance);
         }
 
         /// <summary>
@@ -50,6 +66,11 @@ namespace SaberTailor.Settings
             if (ModPrefs.HasKey(Plugin.PluginName, "GripLeftPosition") && !ModPrefs.GetBool(Plugin.PluginName, "IsExportedToNewConfig", false))
 #pragma warning restore CS0618 // ModPrefs is obsolete
             {
+                if (!Directory.Exists($"{UnityGame.UserDataPath}/SaberTailor"))
+                {
+
+                }
+
                 // Import SaberTailor's settings from the old configuration (ModPrefs)
                 try
                 {
@@ -68,7 +89,7 @@ namespace SaberTailor.Settings
             }
 
             try
-            {
+            {//a
                 LoadConfig();
             }
             catch (Exception ex)
@@ -190,6 +211,55 @@ namespace SaberTailor.Settings
             }
         }
 
+        internal static void RandomizeSabers()
+        {
+            System.Random rand = new System.Random(Guid.NewGuid().GetHashCode());
+            int PXint = rand.Next(-100, 100);
+            int RXint = rand.Next(-180, 180);
+            int PYint = rand.Next(-100, 100);
+            int RYint = rand.Next(-180, 180);
+            int PZint = rand.Next(-100, 100);
+            int RZint = rand.Next(-180, 180);
+
+            GripCfg.PosLeft = new Int3()
+            {
+                x = PXint,
+                y = PYint,
+                z = PZint
+            };
+            GripCfg.RotLeft = new Int3()
+            {
+                x = RXint,
+                y = RYint,
+                z = RZint
+            };
+            GripCfg.OffsetLeft = new Int3()
+            {
+                x = 0,
+                y = 0,
+                z = 0
+            };
+
+            GripCfg.PosRight = new Int3()
+            {
+                x = -PXint,
+                y = PYint,
+                z = PZint
+            };
+            GripCfg.RotRight = new Int3()
+            {
+                x = RXint,
+                y = -RYint,
+                z = -RZint
+            };
+            GripCfg.OffsetRight = new Int3()
+            {
+                x = 0,
+                y = 0,
+                z = 0
+            };
+        }
+
         private static void LoadConfig(ConfigSection cfgSection = ConfigSection.All)
         {
             #region Internal settings
@@ -304,6 +374,13 @@ namespace SaberTailor.Settings
             }
             #endregion
 
+            if (cfgSection == ConfigSection.All || cfgSection == ConfigSection.Base)
+            {
+                Base.Electrostats = PluginConfig.Instance.Electrostats;
+                Base.electroball = PluginConfig.Instance.electroball;
+                Base.Randomize = PluginConfig.Instance.Randomize;
+            }
+
             SaberTailorPatches.CheckHarmonyPatchStatus();
         }
 
@@ -352,6 +429,10 @@ namespace SaberTailor.Settings
             config.SaberPosIncValue = Menu.SaberPosIncValue;
             config.SaberRotIncrement = Menu.SaberRotIncrement;
             #endregion
+
+            config.Electrostats = Base.Electrostats;
+            config.electroball = Base.electroball;
+            config.Randomize = Base.Randomize;
         }
 
         /// <summary>

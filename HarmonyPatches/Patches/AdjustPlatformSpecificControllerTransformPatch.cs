@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using BS_Utils.Utilities;
+using HarmonyLib;
 using SaberTailor.Settings;
 using UnityEngine;
 using UnityEngine.XR;
@@ -57,6 +58,14 @@ namespace SaberTailor.HarmonyPatches
             // Always check for sabers first and modify and exit out immediately if found
             if (transform.gameObject.name == "LeftHand" || transform.gameObject.name.Contains("Saber A"))
             {
+                // https://github.com/Shadnix-was-taken/BeatSaber-SaberTailor/issues/29 - Code taken from commit here, don't know how accurate or correct it is
+                if (Configuration.Base.Electrostats)
+                {
+                    transform.Rotate(0, 0, Configuration.Grip.RotLeft.z);
+                    transform.Translate(Configuration.Grip.PosLeft);
+                    transform.Rotate(Configuration.Grip.RotLeft.x, Configuration.Grip.RotLeft.y, 0);
+                    transform.Translate(Configuration.Grip.OffsetLeft, Space.World);
+                }
                 if (Configuration.Grip.UseBaseGameAdjustmentMode)
                 {
                     position = Configuration.Grip.PosLeft;
@@ -64,14 +73,24 @@ namespace SaberTailor.HarmonyPatches
                 }
                 else
                 {
+                    if (Configuration.Base.Electrostats) return;
                     transform.Translate(Configuration.Grip.PosLeft);
                     transform.Rotate(Configuration.Grip.RotLeft);
                     transform.Translate(Configuration.Grip.OffsetLeft, Space.World);
                 }
+                
                 return;
             }
             else if (transform.gameObject.name == "RightHand" || transform.gameObject.name.Contains("Saber B"))
             {
+                // https://github.com/Shadnix-was-taken/BeatSaber-SaberTailor/issues/29 - Code taken from commit here, don't know how accurate or correct it is
+                if (Configuration.Base.Electrostats)
+                {
+                    transform.Rotate(0, 0, Configuration.Grip.RotRight.z);
+                    transform.Translate(Configuration.Grip.PosRight);
+                    transform.Rotate(Configuration.Grip.RotRight.x, Configuration.Grip.RotRight.y, 0);
+                    transform.Translate(Configuration.Grip.OffsetRight, Space.World);
+                }
                 if (Configuration.Grip.UseBaseGameAdjustmentMode)
                 {
                     position = Configuration.Grip.PosRight;
@@ -79,10 +98,13 @@ namespace SaberTailor.HarmonyPatches
                 }
                 else
                 {
+                    if (Configuration.Base.Electrostats) return;
                     transform.Translate(Configuration.Grip.PosRight);
                     transform.Rotate(Configuration.Grip.RotRight);
                     transform.Translate(Configuration.Grip.OffsetRight, Space.World);
                 }
+                
+                
                 return;
             }
 
@@ -91,6 +113,14 @@ namespace SaberTailor.HarmonyPatches
             {
                 if (transform.gameObject.name == "ControllerLeft")
                 {
+                    // https://github.com/Shadnix-was-taken/BeatSaber-SaberTailor/issues/29 - Code taken from commit here, don't know how accurate or correct it is
+                    if (Configuration.Base.Electrostats)
+                    {
+                        transform.Rotate(0, 0, Configuration.Grip.RotLeft.z);
+                        transform.Translate(Configuration.Grip.PosLeft);
+                        transform.Rotate(Configuration.Grip.RotLeft.x, Configuration.Grip.RotLeft.y, 0);
+                        transform.Translate(Configuration.Grip.OffsetLeft, Space.World);
+                    }
                     if (Configuration.Grip.UseBaseGameAdjustmentMode)
                     {
                         position = Configuration.Grip.PosLeft;
@@ -98,14 +128,25 @@ namespace SaberTailor.HarmonyPatches
                     }
                     else
                     {
+                        if (Configuration.Base.Electrostats) return;
                         transform.Translate(Configuration.Grip.PosLeft);
                         transform.Rotate(Configuration.Grip.RotLeft);
                         transform.Translate(Configuration.Grip.OffsetLeft, Space.World);
                     }
+                    
+                    
                     return;
                 }
                 else if (transform.gameObject.name == "ControllerRight")
                 {
+                    // https://github.com/Shadnix-was-taken/BeatSaber-SaberTailor/issues/29 - Code taken from commit here, don't know how accurate or correct it is
+                    if (Configuration.Base.Electrostats)
+                    {
+                        transform.Rotate(0, 0, Configuration.Grip.RotRight.z);
+                        transform.Translate(Configuration.Grip.PosRight);
+                        transform.Rotate(Configuration.Grip.RotRight.x, Configuration.Grip.RotRight.y, 0);
+                        transform.Translate(Configuration.Grip.OffsetRight, Space.World);
+                    }
                     if (Configuration.Grip.UseBaseGameAdjustmentMode)
                     {
                         position = Configuration.Grip.PosRight;
@@ -113,10 +154,13 @@ namespace SaberTailor.HarmonyPatches
                     }
                     else
                     {
+                        if (Configuration.Base.Electrostats) return;
                         transform.Translate(Configuration.Grip.PosRight);
                         transform.Rotate(Configuration.Grip.RotRight);
                         transform.Translate(Configuration.Grip.OffsetRight, Space.World);
                     }
+                   
+                    
                     return;
                 }
             }

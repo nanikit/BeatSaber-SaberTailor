@@ -1,11 +1,14 @@
 ﻿using IPA;
-using IPA.Config;
 using IPA.Loader;
+using IPA.Utilities;
 using SaberTailor.HarmonyPatches;
 using SaberTailor.Settings;
-using SaberTailor.Settings.UI;
+using SaberTailor.Settings.Utilities;
 using SaberTailor.Tweaks;
-using System.Linq;
+using SaberTailor.UI;
+using System;
+using System.Collections;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using IPALogger = IPA.Logging.Logger;
@@ -15,12 +18,13 @@ namespace SaberTailor
     public static class BuildInfo
     {
         public const string Name = "SaberTailor";
-        public const string Version = "3.5.0";
+        public const string Version = "4.0.0";
     }
 
     [Plugin(RuntimeOptions.DynamicInit)]
     public class Plugin
     {
+        internal static Plugin Instance { get; private set; }
         public static string PluginName => BuildInfo.Name;
         public static Hive.Versioning.Version PluginVersion { get; private set; } = new Hive.Versioning.Version("0.0.0"); // Default
 
@@ -31,14 +35,18 @@ namespace SaberTailor
         [Init]
         public void Init(IPALogger logger, PluginMetadata metadata)
         {
+            Instance = this;
             Logger.log = logger;
             Configuration.Init();
+            Configuration.InitBase();
 
             if (metadata?.HVersion != null)
             {
                 PluginVersion = metadata.HVersion;
             }
+            //zenjector.Install<MenuInstaller>(Location.Menu);
         }
+        
 
         [OnEnable]
         public void OnEnable() => Load();
@@ -58,10 +66,19 @@ namespace SaberTailor
 
         private void Load()
         {
+            //Migrate v3 Saber Tailor configs (This could probably be done in a way better way, but I don't really know what way that would be)
+            if (!Directory.Exists($"{UnityGame.UserDataPath}/SaberTailor"))
+            {
+                Directory.CreateDirectory($"{UnityGame.UserDataPath}/SaberTailor");
+                ProfileManager.MigrateProfiles();
+                ProfileManager.LoadDefaultProfile();
+                Configuration.Save();
+            }
             Configuration.Load();
+            
             Settings.Utilities.ProfileManager.LoadProfiles();
 
-            AddEvents();
+            SceneManager.activeSceneChanged += OnActiveSceneChanged;
             if (IsBSMLAvailable)
             {
                 AddMenu();
@@ -77,7 +94,7 @@ namespace SaberTailor
         {
             SaberTailorPatches.RemoveHarmonyPatches();
             Configuration.Save();
-            RemoveEvents();
+            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
 
             if (IsBSMLAvailable)
             {
@@ -85,25 +102,14 @@ namespace SaberTailor
             }
         }
 
-        private void AddEvents()
-        {
-            RemoveEvents();
-            SceneManager.activeSceneChanged += OnActiveSceneChanged;
-        }
-
-        private void RemoveEvents()
-        {
-            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
-        }
-
         private void AddMenu()
         {
-            BeatSaberMarkupLanguage.Settings.BSMLSettings.instance.AddSettingsMenu("SaberTailor", "SaberTailor.Settings.UI.Views.mainsettings.bsml", MainSettings.instance);
+            BSMLStuff.EnableMenu();
         }
 
         private void RemoveMenu()
         {
-            BeatSaberMarkupLanguage.Settings.BSMLSettings.instance.RemoveSettingsMenu(MainSettings.instance);
+            BSMLStuff.DisableMenu();
         }
 
         private static bool CheckPluginAvailable(string pluginName, Hive.Versioning.Version minVersion)
@@ -115,6 +121,5 @@ namespace SaberTailor
             }
             return pluginMetadata.HVersion >= minVersion;
         }
-
     }
 }

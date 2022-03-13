@@ -1,0 +1,14 @@
+﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
+  <vertical>
+    <horizontal>
+      <dropdown-list-setting text='Existing profiles:' value='profile-list-value' get-event='refresh-profile-list'
+                             options='profile-list-options' apply-on-change='true' id='ddl_profiles' />
+    </horizontal>
+    <horizontal pref-width='90' pad-right='30'>
+      <button text='Load profile' click-event='profile-load' />
+    </horizontal>
+    <horizontal pref-width='90' pref-height='30'>
+      <text id='profile-txt' text=' ' word-wrapping='true' />
+    </horizontal>
+  </vertical>
+</bg>

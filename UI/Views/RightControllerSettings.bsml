@@ -1,0 +1,53 @@
+﻿<vertical xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
+  <horizontal bg='panel-top' pad-left='10' pad-right='10' horizontal-fit='PreferredSize'>
+    <text text='Right Controller' align='Center' font-size='10' />
+  </horizontal>
+  <horizontal>
+    <clickable-text text='Mirror to Left' align='Midline' click-event='mirror-grip-right-to-left' />
+    <clickable-text text='⭯ Revert' align='Right' click-event='reset-saber-config-grip-right' />
+  </horizontal>
+  <slider-setting text='Pos X (Left/Right)' show-buttons='true' value='saber-right-position-x'
+                             apply-on-change='true' on-change='update-saber-position' get-event="refresh-sabertailor-position-values"
+                             integer-only='true' min='~saber-pos-min' max='~saber-pos-max' increment='1'
+                             formatter='position-formatter' hover-hint='Moves the saber left/right relative to the controller.' size-delta-x='20'/>
+
+  <slider-setting text='Pos Y (Down/Up)' show-buttons='true' value='saber-right-position-y'
+                     apply-on-change='true' on-change='update-saber-position' get-event="refresh-sabertailor-position-values"
+                     integer-only='true' min='~saber-pos-min' max='~saber-pos-max' increment='1'
+                     formatter='position-formatter' hover-hint='Moves the saber down/up relative to the controller.' />
+
+  <slider-setting text='Pos Z (Bwd./Fwd.)' show-buttons='true' value='saber-right-position-z'
+                     apply-on-change='true' on-change='update-saber-position' get-event="refresh-sabertailor-position-values"
+                     integer-only='true' min='~saber-pos-min' max='~saber-pos-max' increment='1'
+                     formatter='position-formatter' hover-hint='Moves the saber backwards/forwards relative to the controller.' />
+
+  <slider-setting text='Rot X (Up/Down)' show-buttons='true' value='saber-right-rotation-x'
+                     apply-on-change='true' on-change='update-saber-rotation' get-event="refresh-sabertailor-rotation-values"
+                     integer-only='true' min='~saber-rot-min' max='~saber-rot-max' increment='1'
+                     formatter='rotation-formatter' hover-hint='Tilts the saber up/down relative to the controller.' />
+
+  <slider-setting text='Rot Y (Left/Right)' show-buttons='true' value='saber-right-rotation-y'
+                     apply-on-change='true' on-change='update-saber-rotation' get-event="refresh-sabertailor-rotation-values"
+                     integer-only='true' min='~saber-rot-min' max='~saber-rot-max' increment='1'
+                     formatter='rotation-formatter' hover-hint='Rotates the saber left/right relative to the controller.' />
+
+  <slider-setting text='Rot Z (Saber axis)' show-buttons='true' value='saber-right-rotation-z'
+                     apply-on-change='true' on-change='update-saber-rotation' get-event="refresh-sabertailor-rotation-values"
+                     integer-only='true' min='~saber-rot-min' max='~saber-rot-max' increment='1'
+                     formatter='rotation-formatter' hover-hint='Rotates the saber around its own axis.' />
+
+  <slider-setting text='World Offset X (Left/Right)' show-buttons='true' value='saber-right-offset-x'
+                     apply-on-change='true' on-change='update-saber-offset' get-event="refresh-sabertailor-offset-values"
+                     integer-only='true' min='~saber-pos-min' max='~saber-pos-max' increment='1'
+                     formatter='position-formatter' hover-hint='Moves the controller left/right relative to the world. Does nothing in base game adjustment mode.' />
+
+  <slider-setting text='World Offset Y (Down/Up)' show-buttons='true' value='saber-right-offset-y'
+                     apply-on-change='true' on-change='update-saber-offset' get-event="refresh-sabertailor-offset-values"
+                     integer-only='true' min='~saber-pos-min' max='~saber-pos-max' increment='1'
+                     formatter='position-formatter' hover-hint='Moves the controller down/up relative to the world. Does nothing in base game adjustment mode.' />
+
+  <slider-setting text='World Offset Z (Bwd./Fwd.)' show-buttons='true' value='saber-right-offset-z'
+                     apply-on-change='true' on-change='update-saber-offset' get-event="refresh-sabertailor-offset-values"
+                     integer-only='true' min='~saber-pos-min' max='~saber-pos-max' increment='1'
+                     formatter='position-formatter' hover-hint='Moves the controller backwards/forwards relative to the world. Does nothing in base game adjustment mode.' />
+</vertical>
